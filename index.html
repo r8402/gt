@@ -59,41 +59,45 @@
             color: #ccc;
         }
 
-        /* MODIFICAÇÕES AQUI: Barra de categorias se expande além do padding do body */
+        /* MODIFICAÇÕES AQUI: Barra de categorias arredondada e alinhada */
         .categories {
             display: flex;
-            flex-wrap: nowrap;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 25px;
-            
-            width: calc(100% + 40px);
-            margin-left: -20px;
-            margin-right: -20px;
-            max-width: none;
+            justify-content: center; /* Centraliza o grupo de botões */
+            align-items: center;
+            gap: 8px; /* Espaçamento entre o botão de pesquisa, área rolavel e botão de modo noturno */
+            margin: 0 auto 25px auto;
+            width: 90%; /* Largura do contêiner */
+            max-width: 900px;
             
             padding: 15px 20px;
             background-color: #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 0;
+            border-radius: 12px; 
             box-sizing: border-box;
             
             position: static; 
             top: auto;
             z-index: auto;
-
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
         }
-        .categories::-webkit-scrollbar {
-            display: none;
-        }
-        /* Ajuste para o modo escuro */
         body.dark-mode .categories {
             background-color: #3c3c3c;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        #scrollableCategoryButtons {
+            display: flex;
+            flex-wrap: nowrap; /* Mantém os itens em uma única linha */
+            overflow-x: auto; /* Habilita a rolagem horizontal */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Oculta a barra de rolagem para Firefox */
+            -ms-overflow-style: none; /* Oculta a barra de rolagem para IE/Edge */
+            flex-grow: 1; /* Permite que esta div ocupe o espaço disponível */
+            gap: 8px; /* Espaçamento entre os botões de categoria individuais */
+            padding-bottom: 5px; /* Evita que o conteúdo seja cortado pela barra de rolagem em alguns sistemas */
+        }
+
+        #scrollableCategoryButtons::-webkit-scrollbar {
+            display: none; /* Oculta a barra de rolagem para navegadores Webkit */
         }
 
         .category-button {
@@ -112,7 +116,18 @@
         /* Botão de Pesquisa com cor de destaque */
         #show-search-btn {
             background: linear-gradient(135deg, #6c63ff, #4a42d3);
+            /* Ajustes para o ícone SVG */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 10px; /* Um pouco menos de padding horizontal se apenas ícone */
         }
+        #show-search-btn svg {
+            fill: currentColor; /* Faz o SVG usar a cor do texto do botão */
+            width: 18px; /* Tamanho do ícone */
+            height: 18px;
+        }
+
         /* Cores dos botões de categoria */
         .category-button[data-category="all"] { background-color: #007bff; }
         .category-button[data-category="contas"] { background-color: #4caf50; }
@@ -219,15 +234,21 @@
     </div>
 
     <nav class="categories">
-        <button class="category-button" id="show-search-btn">Pesquise!</button>
-        <!-- Botões "Todos" e "Outros" ocultos -->
-        <button class="category-button" data-category="all" style="display: none;">Todos</button>
-        <button class="category-button" data-category="contas">Contas</button>
-        <button class="category-button" data-category="estudos">Estudos</button>
-        <button class="category-button" data-category="saude">Saúde</button>
-        <button class="category-button" data-category="compras">Compras</button>
-        <button class="category-button" data-category="ferramentas">Ferramentas</button>
-        <button class="category-button" data-category="outros" style="display: none;">Outros</button>
+        <button class="category-button" id="show-search-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+        </button>
+        <div id="scrollableCategoryButtons">
+            <!-- Os botões de categoria serão duplicados e inseridos aqui pelo JavaScript para rolagem infinita -->
+            <button class="category-button" data-category="all" style="display: none;">Todos</button>
+            <button class="category-button" data-category="contas">Contas</button>
+            <button class="category-button" data-category="estudos">Estudos</button>
+            <button class="category-button" data-category="saude">Saúde</button>
+            <button class="category-button" data-category="compras">Compras</button>
+            <button class="category-button" data-category="ferramentas">Ferramentas</button>
+            <button class="category-button" data-category="outros" style="display: none;">Outros</button>
+        </div>
         <!-- Novo botão para alternar modo noturno -->
         <button class="category-button" id="dark-mode-toggle" title="Alternar Modo Noturno">
             <!-- Ícone de lua para modo noturno -->
@@ -239,68 +260,68 @@
 
     <div class="icon-grid" id="iconGrid">
         <!-- A grade de ícones é exatamente a mesma do código original fornecido                                   categorias:contas, estudos, saúde, compras, ferramentas-->
-        <a href="https://musclewiki.com/pt-br/" class="icon-item musclewiki" data-label="academia" data-category="saude"><div class="icon-content"><div class="icon-label">Academia</div></div></a>
-        <a href="https://web.whatsapp.com/" class="icon-item whatsapp" data-label="Web WhatsApp" data-category="ferramentas"><div class="icon-content"><div class="icon-label">WhatsAp</div></div></a>
-        <a href="http://138.255.240.6:8000/accounts/central/login" class="icon-item tsunami" data-label="Tsunami" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Tsunami</div></div></a>
-        <a href="https://api.whatsapp.com/send?phone=557197170999&text=MENU" class="icon-item embasa" data-label="2ºVia de Água" data-category="contas"><div class="icon-content"><div class="icon-label">Segunda via de Água</div></div></a>
-        <a href="https://api.whatsapp.com/send?phone=557133706350&text=MENU" class="icon-item verde" data-label="2ºVia de Luz" data-category="contas"><div class="icon-content"><div class="icon-label">Segunda via de Luz</div></div></a>
-        <a href="https://mercadolivre.com.br" class="icon-item mercadolivre" data-label="Mercado Livre" data-category="compras"><div class="icon-content"><div class="icon-label">Mercado Livre</div></div></a>
-        <a href="https://YouTube.com.br" class="icon-item youtube1" data-label="YouTube 1" data-category="outros"><div class="icon-content"><div class="icon-label">YouTube</div></div></a>
-        <a href="https://www.urban-vpn.com/pt-br/" class="icon-item vpn" data-label="vpn" data-category="ferramentas"><div class="icon-content"><div class="icon-label">VPN</div></div></a>
-        <a href="https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh?hl=pt-BR" class="icon-item bloqueador" data-label="bloqueador" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Bloquear Anúncios</div></div></a>
-        <a href="https://codepen.io/pen/" class="icon-item codepen" data-label="Codepen" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Codifique Aqui!</div></div></a>
-        <a href="https://sso.acesso.gov.br/" class="icon-item azul2" data-label="Gov.br" data-category="contas"><div class="icon-content"><div class="icon-label">Gov.br</div></div></a>
-        <a href="https://meu.inss.gov.br/" class="icon-item verde2" data-label="Meu INSS" data-category="contas"><div class="icon-content"><div class="icon-label">Meu INSS</div></div></a>
-        <a href="https://www.sejda.com/pt/pdf-editor" class="icon-item gov-curso" data-label="sejda editor" data-category="estudos"><div class="icon-content"><div class="icon-label">Sejda Editor</div></div></a>
-        <a href="https://avamec.mec.gov.br/#/curso/listar?idCategoria=0" class="icon-item gov-curso" data-label="AVAMEC" data-category="estudos"><div class="icon-content"><div class="icon-label">AVAMEC CURSOS</div></div></a>
-        <a href="https://www.escolavirtual.gov.br/catalogo" class="icon-item gov-curso" data-label="Escola Virtual GOV" data-category="estudos"><div class="icon-content"><div class="icon-label">Esc.V. CURSOS</div></div></a>
-        <a href="https://aprendamais.mec.gov.br/course/index.php" class="icon-item gov-curso" data-label="Aprenda Mais" data-category="estudos"><div class="icon-content"><div class="icon-label">Apre. Mais CURSOS</div></div></a>
-        <a href="https://www.ev.org.br/" class="icon-item gov-curso" data-label="Bradesco" data-category="estudos"><div class="icon-content"><div class="icon-label">Bradesco CURSOS</div></div></a>
-        <a href="https://www.futuro.digital/cursos-gratuitos" class="icon-item gov-curso" data-label="Senai" data-category="estudos"><div class="icon-content"><div class="icon-label">Senai CURSOS</div></div></a>
-        <a href="https://www.primecursos.com.br/" class="icon-item gov-curso" data-label="Prime Cursos" data-category="estudos"><div class="icon-content"><div class="icon-label">Prime CURSOS</div></div></a>
-        <a href="https://concursosnobrasil.com/concursos/ba/" class="icon-item concursos" data-label="Concursos" data-category="estudos"><div class="icon-content"><div class="icon-label">Brasil CONCURSOS</div></div></a>
-        <a href="https://www.acheconcursos.com.br/concursos-bahia" class="icon-item concursos" data-label="Concursos" data-category="estudos"><div class="icon-content"><div class="icon-label">Ache CONCURSOS</div></div></a>
-        <a href="https://www.pciconcursos.com.br/concursos/#BA" class="icon-item concursos" data-label="Concursos" data-category="estudos"><div class="icon-content"><div class="icon-label">PCI CONCURSOS</div></div></a>
-        <a href="https://mega.nz" class="icon-item mega" data-label="Mega" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Mega NUVEM</div></div></a>
-        <a href="https://www.zoom.com.br/" class="icon-item zoom" data-label="Zoom" data-category="compras"><div class="icon-content"><div class="icon-label">Zoom CUPONS</div></div></a>
-        <a href="https://www.cuponomia.com.br/" class="icon-item cuponomia" data-label="Cuponomia" data-category="compras"><div class="icon-content"><div class="icon-label">Cuponomia CUPONS</div></div></a>
-        <a href="https://yt5s.in/pt257mm/youtube-to-mp4" class="icon-item baixar" data-label="Baixar" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Baixar MP4/MP3</div></div></a>
-        <a href="https://pluto.tv/" class="icon-item plutotv" data-label="Pluto TV" data-category="outros"><div class="icon-content"><div class="icon-label">Pluto TV</div></div></a>
-        <a href="https://play.mercadolivre.com.br/?origin=internal" class="icon-item mercadolivre" data-label="Mercado Play" data-category="outros"><div class="icon-content"><div class="icon-label">Mercado Play</div></div></a>
-        <a href="https://" class="icon-item canais" data-label="Canais" data-category="outros"><div class="icon-content"><div class="icon-label">Canais</div></div></a>
-        <a href="https://www.canva.com/pt_br/modelos/?category=tAEoFqaPb84&fFormat=MV8&pricing=FREE" class="icon-item canva" data-label="Canva" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Canva</div></div></a>
-        <a href="https://servicos.neoenergiacoelba.com.br/area-logada/Paginas/login.aspx?ref=https://servicos.neoenergiacoelba.com.br/servicos-ao-cliente/Pages/2-via-de-conta-coelba.aspx" class="icon-item coelba" data-label="Coelba" data-category="contas"><div class="icon-content"><div class="icon-label">COELBA PORTAL</div></div></a>
-        <a href="https://drive.google.com/drive/u/0/my-drive?fd=true" class="icon-item drive" data-label="Drive" data-category="ferramentas"><div class="icon-content"><div class="icon-label">DRIVE GOOGLE</div></div></a>
-        <a href="https://clideo.com/pt" class="icon-item clideo" data-label="Clideo" data-category="ferramentas"><div class="icon-content"><div class="icon-label">CORTAR VIDEO</div></div></a>
-        <a href="https://atendimentovirtual.embasa.ba.gov.br/login" class="icon-item embasa" data-label="Embasa" data-category="contas"><div class="icon-content"><div class="icon-label">EMBASA PORTAL</div></div></a>
-        <a href="https://onedrive.live.com/?id=root&cid=6DB96A6307BA3A1C" class="icon-item onedrive" data-label="OneDrive" data-category="ferramentas"><div class="icon-content"><div class="icon-label">OneDrive</div></div></a>
-        <a href="https://" class="icon-item globfone" data-label="Globfone" data-category="ferramentas"><div class="icon-content"><div class="icon-label">fone</div></div></a>
-        <a href="https://music.youtube.com/" class="icon-item youtube0" data-label="YouTube 0" data-category="outros"><div class="icon-content"><div class="icon-label">YouTube Music</div></div></a>
-        <a href="https://www.cartacapital.com.br/" class="icon-item cartacapital" data-label="CartaCapital" data-category="outros"><div class="icon-content"><div class="icon-label">Carta Capital</div></div></a>
-        <a href="https://icon-icons.com/" class="icon-item iconicons" data-label="Iconicons" data-category="ferramentas"><div class="icon-content"><div class="icon-label">.ICO GRÁTIS</div></div></a>
-        <a href="https://br.pinterest.com/" class="icon-item pinterest" data-label="Pinterest" data-category="outros"><div class="icon-content"><div class="icon-label">Pinterest</div></div></a>
-        <a href="https://logodownload.org/" class="icon-item logodownload" data-label="Logo Download" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Logo Download</div></div></a>
-        <a href="https://icons8.com.br/" class="icon-item icons8" data-label="Icons8" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Icons8</div></div></a>
-        <a href="https://www.gratispng.com/" class="icon-item gratispng" data-label="Grátis PNG" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Grátis PNG</div></div></a>
-        <a href="https://www.linkcorreios.com.br/index.php" class="icon-item linkcorreios" data-label="Link Correios" data-category="ferramentas"><div class="icon-content"><div class="icon-label">CÓDIGO RASTREIO</div></div></a>
-        <a href="https://www.photoroom.com/pt-br/ferramentas/remover-fundo-de-imagem" class="icon-item photoroom" data-label="Photoroom" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Remover Fundo</div></div></a>
-        <a href="https://m.topflix.sh/genero/" class="icon-item topflix" data-label="TopFlix" data-category="outros"><div class="icon-content"><div class="icon-label">Filmes grátis</div></div></a>
-        <a href="https://meuguia.tv/programacao/categoria/Filmes" class="icon-item meuguia" data-label="Meu Guia" data-category="outros"><div class="icon-content"><div class="icon-label">Guia TV</div></div></a>
-        <a href="https://www.colaboraread.com.br/aluno/dashboard/index?matriculaId=3602038005" class="icon-item unopar" data-label="Unopar" data-category="estudos"><div class="icon-content"><div class="icon-label">Unopar</div></div></a>
-        <a href="https://clideo.com/pt/cut-audio" class="icon-item clideoaudio" data-label="Clideo Audio" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Corte Áudio</div></div></a>
-        <a href="https://www.azarado.com.br" class="icon-item azarado" data-label="Azarado" data-category="outros"><div class="icon-content"><div class="icon-label">Técnico de informática</div></div></a>
-        <a href="https://sourceforge.net" class="icon-item azarado" data-label="SourceForge" data-category="outros"><div class="icon-content"><div class="icon-label">SourceForge APPS</div></div></a>
-        <a href="https://osdn.net" class="icon-item azarado" data-label="OSDN" data-category="outros"><div class="icon-content"><div class="icon-label">OSDN APPS</div></div></a>
-        <a href="https://www.fosshub.com" class="icon-item azarado" data-label="FossHub" data-category="outros"><div class="icon-content"><div class="icon-label">FossHub APPS</div></div></a>
-        <a href="https://github.com/camilatigre/listamaravilhosaopensource" class="icon-item azarado" data-label="GitHub" data-category="outros"><div class="icon-content"><div class="icon-label">GitHub APPS</div></div></a>
-        <a href="https://github.com/ishanvyas22/awesome-open-source-systems" class="icon-item azarado" data-label="Awesome Open Source Systems" data-category="outros"><div class="icon-content"><div class="icon-label">Awesome APPS</div></div></a>
-        <a href="https://www.softpedia.com" class="icon-item azarado" data-label="Softpedia" data-category="outros"><div class="icon-content"><div class="icon-label">Softpedia APPS</div></div></a>
-        <a href="https://feriados.site/ba/saubara/" class="icon-item feriados" data-label="Feriados" data-category="outros"><div class="icon-content"><div class="icon-label">Feriados MUNICIPAIS</div></div></a>
-        <a href="https://mercadopago.com.br" class="icon-item mercadopago" data-label="Mercado Pago" data-category="compras"><div class="icon-content"><div class="icon-label">Mercado Pago</div></div></a>
-        <a href="https://buscape.com.br" class="icon-item buscape" data-label="Buscape" data-category="compras"><div class="icon-content"><div class="icon-label">Buscapé CUPONS</div></div></a>
-        <a href="https://gemini.google.com/app?hl=pt-BR" class="icon-item photoroom" data-label="Gemini" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Gemini IA</div></div></a>
-        <a href="https://copilot.microsoft.com/chats/QgSTT7oLbV1NLk9h2qzLr" class="icon-item copilot-icon" data-label="Copilot" data-category="ferramentas"><div class="icon-content"><div class="icon-label">Copilot IA</div></div></a>
-        <a href="https://github.com" class="icon-item meuguia" data-label="git hub" data-category="ferramentas"><div class="icon-content"><div class="icon-label">GitHub</div></div></a>
+        <a href="https://musclewiki.com/pt-br/" class="icon-item musclewiki" data-label="academia" data-category="saude" target="_blank"><div class="icon-content"><div class="icon-label">Academia</div></div></a>
+        <a href="https://web.whatsapp.com/" class="icon-item whatsapp" data-label="Web WhatsApp" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">WhatsAp</div></div></a>
+        <a href="http://138.255.240.6:8000/accounts/central/login" class="icon-item tsunami" data-label="Tsunami" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Tsunami</div></div></a>
+        <a href="https://api.whatsapp.com/send?phone=557197170999&text=MENU" class="icon-item embasa" data-label="2ºVia de Água" data-category="contas" target="_blank"><div class="icon-content"><div class="icon-label">Segunda via de Água</div></div></a>
+        <a href="https://api.whatsapp.com/send?phone=557133706350&text=MENU" class="icon-item verde" data-label="2ºVia de Luz" data-category="contas" target="_blank"><div class="icon-content"><div class="icon-label">Segunda via de Luz</div></div></a>
+        <a href="https://mercadolivre.com.br" class="icon-item mercadolivre" data-label="Mercado Livre" data-category="compras" target="_blank"><div class="icon-content"><div class="icon-label">Mercado Livre</div></div></a>
+        <a href="https://YouTube.com.br" class="icon-item youtube1" data-label="YouTube 1" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">YouTube</div></div></a>
+        <a href="https://www.urban-vpn.com/pt-br/" class="icon-item vpn" data-label="vpn" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">VPN</div></div></a>
+        <a href="https://chromewebstore.google.com/detail/ublock-origin-lite/ddkjiahejlhfcafbddmgiahcphecmpfh?hl=pt-BR" class="icon-item bloqueador" data-label="bloqueador" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Bloquear Anúncios</div></div></a>
+        <a href="https://codepen.io/pen/" class="icon-item codepen" data-label="Codepen" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Codifique Aqui!</div></div></a>
+        <a href="https://sso.acesso.gov.br/" class="icon-item azul2" data-label="Gov.br" data-category="contas" target="_blank"><div class="icon-content"><div class="icon-label">Gov.br</div></div></a>
+        <a href="https://meu.inss.gov.br/" class="icon-item verde2" data-label="Meu INSS" data-category="contas" target="_blank"><div class="icon-content"><div class="icon-label">Meu INSS</div></div></a>
+        <a href="https://www.sejda.com/pt/pdf-editor" class="icon-item gov-curso" data-label="sejda editor" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Sejda Editor</div></div></a>
+        <a href="https://avamec.mec.gov.br/#/curso/listar?idCategoria=0" class="icon-item gov-curso" data-label="AVAMEC" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">AVAMEC CURSOS</div></div></a>
+        <a href="https://www.escolavirtual.gov.br/catalogo" class="icon-item gov-curso" data-label="Escola Virtual GOV" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Esc.V. CURSOS</div></div></a>
+        <a href="https://aprendamais.mec.gov.br/course/index.php" class="icon-item gov-curso" data-label="Aprenda Mais" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Apre. Mais CURSOS</div></div></a>
+        <a href="https://www.ev.org.br/" class="icon-item gov-curso" data-label="Bradesco" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Bradesco CURSOS</div></div></a>
+        <a href="https://www.futuro.digital/cursos-gratuitos" class="icon-item gov-curso" data-label="Senai" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Senai CURSOS</div></div></a>
+        <a href="https://www.primecursos.com.br/" class="icon-item gov-curso" data-label="Prime Cursos" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Prime CURSOS</div></div></a>
+        <a href="https://concursosnobrasil.com/concursos/ba/" class="icon-item concursos" data-label="Concursos" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Brasil CONCURSOS</div></div></a>
+        <a href="https://www.acheconcursos.com.br/concursos-bahia" class="icon-item concursos" data-label="Concursos" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Ache CONCURSOS</div></div></a>
+        <a href="https://www.pciconcursos.com.br/concursos/#BA" class="icon-item concursos" data-label="Concursos" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">PCI CONCURSOS</div></div></a>
+        <a href="https://mega.nz" class="icon-item mega" data-label="Mega" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Mega NUVEM</div></div></a>
+        <a href="https://www.zoom.com.br/" class="icon-item zoom" data-label="Zoom" data-category="compras" target="_blank"><div class="icon-content"><div class="icon-label">Zoom CUPONS</div></div></a>
+        <a href="https://www.cuponomia.com.br/" class="icon-item cuponomia" data-label="Cuponomia" data-category="compras" target="_blank"><div class="icon-content"><div class="icon-label">Cuponomia CUPONS</div></div></a>
+        <a href="https://yt5s.in/pt257mm/youtube-to-mp4" class="icon-item baixar" data-label="Baixar" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Baixar MP4/MP3</div></div></a>
+        <a href="https://pluto.tv/" class="icon-item plutotv" data-label="Pluto TV" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Pluto TV</div></div></a>
+        <a href="https://play.mercadolivre.com.br/?origin=internal" class="icon-item mercadolivre" data-label="Mercado Play" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Mercado Play</div></div></a>
+        <a href="https://" class="icon-item canais" data-label="Canais" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Canais</div></div></a>
+        <a href="https://www.canva.com/pt_br/modelos/?category=tAEoFqaPb84&fFormat=MV8&pricing=FREE" class="icon-item canva" data-label="Canva" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Canva</div></div></a>
+        <a href="https://servicos.neoenergiacoelba.com.br/area-logada/Paginas/login.aspx?ref=https://servicos.neoenergiacoelba.com.br/servicos-ao-cliente/Pages/2-via-de-conta-coelba.aspx" class="icon-item coelba" data-label="Coelba" data-category="contas" target="_blank"><div class="icon-content"><div class="icon-label">COELBA PORTAL</div></div></a>
+        <a href="https://drive.google.com/drive/u/0/my-drive?fd=true" class="icon-item drive" data-label="Drive" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">DRIVE GOOGLE</div></div></a>
+        <a href="https://clideo.com/pt" class="icon-item clideo" data-label="Clideo" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">CORTAR VIDEO</div></div></a>
+        <a href="https://atendimentovirtual.embasa.ba.gov.br/login" class="icon-item embasa" data-label="Embasa" data-category="contas" target="_blank"><div class="icon-content"><div class="icon-label">EMBASA PORTAL</div></div></a>
+        <a href="https://onedrive.live.com/?id=root&cid=6DB96A6307BA3A1C" class="icon-item onedrive" data-label="OneDrive" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">OneDrive</div></div></a>
+        <a href="https://" class="icon-item globfone" data-label="Globfone" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">fone</div></div></a>
+        <a href="https://music.youtube.com/" class="icon-item youtube0" data-label="YouTube 0" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">YouTube Music</div></div></a>
+        <a href="https://www.cartacapital.com.br/" class="icon-item cartacapital" data-label="CartaCapital" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Carta Capital</div></div></a>
+        <a href="https://icon-icons.com/" class="icon-item iconicons" data-label="Iconicons" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">.ICO GRÁTIS</div></div></a>
+        <a href="https://br.pinterest.com/" class="icon-item pinterest" data-label="Pinterest" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Pinterest</div></div></a>
+        <a href="https://logodownload.org/" class="icon-item logodownload" data-label="Logo Download" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Logo Download</div></div></a>
+        <a href="https://icons8.com.br/" class="icon-item icons8" data-label="Icons8" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Icons8</div></div></a>
+        <a href="https://www.gratispng.com/" class="icon-item gratispng" data-label="Grátis PNG" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Grátis PNG</div></div></a>
+        <a href="https://www.linkcorreios.com.br/index.php" class="icon-item linkcorreios" data-label="Link Correios" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">CÓDIGO RASTREIO</div></div></a>
+        <a href="https://www.photoroom.com/pt-br/ferramentas/remover-fundo-de-imagem" class="icon-item photoroom" data-label="Photoroom" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Remover Fundo</div></div></a>
+        <a href="https://m.topflix.sh/genero/" class="icon-item topflix" data-label="TopFlix" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Filmes grátis</div></div></a>
+        <a href="https://meuguia.tv/programacao/categoria/Filmes" class="icon-item meuguia" data-label="Meu Guia" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Guia TV</div></div></a>
+        <a href="https://www.colaboraread.com.br/aluno/dashboard/index?matriculaId=3602038005" class="icon-item unopar" data-label="Unopar" data-category="estudos" target="_blank"><div class="icon-content"><div class="icon-label">Unopar</div></div></a>
+        <a href="https://clideo.com/pt/cut-audio" class="icon-item clideoaudio" data-label="Clideo Audio" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Corte Áudio</div></div></a>
+        <a href="https://www.azarado.com.br" class="icon-item azarado" data-label="Azarado" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Técnico de informática</div></div></a>
+        <a href="https://sourceforge.net" class="icon-item azarado" data-label="SourceForge" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">SourceForge APPS</div></div></a>
+        <a href="https://osdn.net" class="icon-item azarado" data-label="OSDN" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">OSDN APPS</div></div></a>
+        <a href="https://www.fosshub.com" class="icon-item azarado" data-label="FossHub" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">FossHub APPS</div></div></a>
+        <a href="https://github.com/camilatigre/listamaravilhosaopensource" class="icon-item azarado" data-label="GitHub" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">GitHub APPS</div></div></a>
+        <a href="https://github.com/ishanvyas22/awesome-open-source-systems" class="icon-item azarado" data-label="Awesome Open Source Systems" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Awesome APPS</div></div></a>
+        <a href="https://www.softpedia.com" class="icon-item azarado" data-label="Softpedia" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Softpedia APPS</div></div></a>
+        <a href="https://feriados.site/ba/saubara/" class="icon-item feriados" data-label="Feriados" data-category="outros" target="_blank"><div class="icon-content"><div class="icon-label">Feriados MUNICIPAIS</div></div></a>
+        <a href="https://mercadopago.com.br" class="icon-item mercadopago" data-label="Mercado Pago" data-category="compras" target="_blank"><div class="icon-content"><div class="icon-label">Mercado Pago</div></div></a>
+        <a href="https://buscape.com.br" class="icon-item buscape" data-label="Buscape" data-category="compras" target="_blank"><div class="icon-content"><div class="icon-label">Buscapé CUPONS</div></div></a>
+        <a href="https://gemini.google.com/app?hl=pt-BR" class="icon-item photoroom" data-label="Gemini" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Gemini IA</div></div></a>
+        <a href="https://copilot.microsoft.com/chats/QgSTT7oLbV1NLk9h2qzLr" class="icon-item copilot-icon" data-label="Copilot" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">Copilot IA</div></div></a>
+        <a href="https://github.com" class="icon-item meuguia" data-label="git hub" data-category="ferramentas" target="_blank"><div class="icon-content"><div class="icon-label">GitHub</div></div></a>
 
     <!-- Caixa de mensagem flutuante -->
     <div id="messageBox" class="message-box"></div>
@@ -308,7 +329,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const body = document.body;
-            const categoryButtons = document.querySelectorAll('.category-button[data-category]');
+            const categoryButtonsOriginal = document.querySelectorAll('#scrollableCategoryButtons > .category-button'); // Botões de categoria originais
             const linkItems = document.querySelectorAll('.icon-item');
             const searchInput = document.getElementById('search-input');
             const showSearchBtn = document.getElementById('show-search-btn');
@@ -316,6 +337,7 @@
             const closeSearchBtn = document.getElementById('close-search-btn');
             const darkModeToggle = document.getElementById('dark-mode-toggle');
             const messageBox = document.getElementById('messageBox');
+            const scrollableCategoryButtonsContainer = document.getElementById('scrollableCategoryButtons');
 
             let currentActiveCategory = 'all';
 
@@ -345,15 +367,67 @@
                 body.classList.add('dark-mode');
             }
 
+            // --- Lógica de Rolagem Infinita para os botões de categoria ---
+            let originalContentWidth = 0;
+            const gap = 8; // Assumindo o gap do CSS
+
+            // Clona e mede o tamanho do conteúdo original para rolagem
+            const tempMeasuringDiv = document.createElement('div');
+            tempMeasuringDiv.style.display = 'flex';
+            tempMeasuringDiv.style.gap = `${gap}px`;
+            tempMeasuringDiv.style.visibility = 'hidden';
+            tempMeasuringDiv.style.position = 'absolute';
+            tempMeasuringDiv.style.top = '-9999px'; // Fora da tela
+            
+            // Adiciona clones dos botões originais para medir o width real (incluindo padding/margin)
+            categoryButtonsOriginal.forEach(btn => tempMeasuringDiv.appendChild(btn.cloneNode(true)));
+            document.body.appendChild(tempMeasuringDiv);
+            originalContentWidth = tempMeasuringDiv.scrollWidth;
+            tempMeasuringDiv.remove();
+
+            const numSets = 3; // Número de conjuntos de botões para simular a rolagem infinita
+
+            // Limpa o contêiner original e preenche com múltiplos conjuntos
+            scrollableCategoryButtonsContainer.innerHTML = ''; 
+            for (let i = 0; i < numSets; i++) {
+                categoryButtonsOriginal.forEach(button => {
+                    const clonedButton = button.cloneNode(true); // Clonagem profunda
+                    scrollableCategoryButtonsContainer.appendChild(clonedButton);
+                });
+            }
+
+            // Define a posição inicial de rolagem para o começo do segundo conjunto de botões
+            // Isso permite a rolagem "infinita" para a esquerda e para a direita
+            scrollableCategoryButtonsContainer.scrollLeft = originalContentWidth;
+
+            // Adiciona o listener de rolagem para o loop infinito
+            scrollableCategoryButtonsContainer.addEventListener('scroll', () => {
+                const scrollPosition = scrollableCategoryButtonsContainer.scrollLeft;
+                
+                // Se rolou para a direita e passou do segundo conjunto, volta para o início do segundo conjunto
+                if (scrollPosition >= originalContentWidth * 2) {
+                    scrollableCategoryButtonsContainer.scrollLeft = originalContentWidth;
+                } 
+                // Se rolou para a esquerda e passou do primeiro conjunto, avança para o início do penúltimo conjunto
+                else if (scrollPosition <= 0) {
+                    scrollableCategoryButtonsContainer.scrollLeft = originalContentWidth * (numSets - 1);
+                }
+            });
+
+            // --- Fim da Lógica de Rolagem Infinita ---
+
+
             const filterAndRender = () => {
                 const searchTerm = searchInput.value.toLowerCase();
                 const isSearching = searchTerm.length > 0;
 
                 if (isSearching) {
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Remove 'active' de todos os botões de categoria quando estiver pesquisando
+                    document.querySelectorAll('.category-button[data-category]').forEach(btn => btn.classList.remove('active'));
                 } else {
-                    categoryButtons.forEach(btn => {
-                        if (btn.style.display !== 'none' && btn.id !== 'dark-mode-toggle') { // Ignora o botão de modo noturno
+                    // Atualiza a classe 'active' para a categoria selecionada (se não estiver pesquisando)
+                    document.querySelectorAll('.category-button[data-category]').forEach(btn => {
+                        if (btn.style.display !== 'none' && btn.id !== 'dark-mode-toggle') {
                             btn.classList.toggle('active', btn.dataset.category === currentActiveCategory);
                         }
                     });
@@ -374,19 +448,17 @@
                 });
             };
 
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    // Evita que o clique no botão de modo noturno ative uma categoria
-                    if (event.currentTarget.id === 'dark-mode-toggle') {
-                        return;
-                    }
-                    currentActiveCategory = event.currentTarget.dataset.category;
+            // Event delegation para os botões de categoria dentro do contêiner rolavel
+            scrollableCategoryButtonsContainer.addEventListener('click', (event) => {
+                const targetButton = event.target.closest('.category-button[data-category]');
+                if (targetButton) {
+                    currentActiveCategory = targetButton.dataset.category;
                     searchInput.value = '';
                     if (searchContainer.style.display === 'block') {
                         searchContainer.style.display = 'none';
                     }
                     filterAndRender();
-                });
+                }
             });
 
             searchInput.addEventListener('input', filterAndRender);
